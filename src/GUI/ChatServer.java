@@ -12,8 +12,8 @@ import java.net.Socket;
 public class ChatServer {
     private JPanel mainPanel;
     public JButton serverSendButton;
-    private JTextField serverTextArea;
     private JTextField serverTextField;
+    private JTextArea serverTextArea;
 
     static ServerSocket ss;
     static Socket s;
@@ -65,7 +65,7 @@ public class ChatServer {
     }
 
     private void initComponents(){
-        JFrame frame = new JFrame("Socket");
+        JFrame frame = new JFrame("Chat Server");
         frame.setContentPane(new ChatServer().mainPanel);
         frame.setAlwaysOnTop(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
