@@ -31,6 +31,13 @@ public class Server extends JFrame {
                 msgout = serverTextField.getText().trim();
                 try {
                     dout.writeUTF(msgout);
+                    if (serverTextArea.getText().isEmpty()) {
+                        serverTextArea.setText(
+                                serverTextArea.getText().trim() + msgout);
+                    } else {
+                        serverTextArea.setText(
+                                serverTextArea.getText().trim() + "\n" + msgout);
+                    }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -49,8 +56,14 @@ public class Server extends JFrame {
 
             while (!msgin.equals("exit")) {
                 msgin = din.readUTF();
-                serverTextArea.setText(
-                        serverTextArea.getText().trim() + "\n" + msgin);
+                if (serverTextArea.getText().isEmpty()) {
+                    serverTextArea.setText(
+                            serverTextArea.getText().trim() + "Server:" + msgin);
+                }
+                else {
+                    serverTextArea.setText(
+                            serverTextArea.getText().trim() + "\nServer:" + msgin);
+                }
 
             }
         } catch(Exception e) {
