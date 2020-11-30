@@ -58,11 +58,11 @@ public class Server extends JFrame {
                 msgin = din.readUTF();
                 if (serverTextArea.getText().isEmpty()) {
                     serverTextArea.setText(
-                            serverTextArea.getText().trim() + "Server:" + msgin);
+                            serverTextArea.getText().trim() + "Client:" + msgin);
                 }
                 else {
                     serverTextArea.setText(
-                            serverTextArea.getText().trim() + "\nServer:" + msgin);
+                            serverTextArea.getText().trim() + "\nClient:" + msgin);
                 }
 
             }
