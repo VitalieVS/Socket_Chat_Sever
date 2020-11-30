@@ -30,7 +30,7 @@ public class Server extends JFrame {
 
                 msgout = serverTextField.getText().trim();
                 try {
-                    dout.writeUTF(msgout); // send
+                    dout.writeUTF(msgout);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
