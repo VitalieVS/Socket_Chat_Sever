@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ChatServer {
+public class Server extends JFrame {
     private JPanel mainPanel;
     public JButton serverSendButton;
     private JTextField serverTextField;
@@ -21,7 +21,9 @@ public class ChatServer {
     static DataOutputStream dout;
 
 
-    public ChatServer() {
+    public Server() {
+        System.out.println("Constructor initialized for Server");
+        initComponents();
         serverSendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,13 +37,17 @@ public class ChatServer {
                 }
             }
         });
+        serverMessaging();
     }
 
-    public void messaging() {
+    public void serverMessaging() {
         String msgin = "";
+        System.out.println("Server Connecting...");
         try {
             ss = new ServerSocket(1201); // port
             s = ss.accept();
+
+            System.out.println("SeverConnected");
 
             din = new DataInputStream(s.getInputStream());
             dout = new DataOutputStream(s.getOutputStream());
@@ -49,6 +55,7 @@ public class ChatServer {
 
             while (!msgin.equals("exit")) {
                 msgin = din.readUTF();
+                System.out.println("Client:" + msgin);
                 serverTextArea.setText(
                         serverTextArea.getText().trim() + "\n" + msgin);
 
@@ -58,18 +65,12 @@ public class ChatServer {
         }
     }
 
-    public static void main(String[] args) {
-        ChatServer form = new ChatServer();
-        form.initComponents();
-        form.messaging();
-    }
-
-    private void initComponents(){
-        JFrame frame = new JFrame("Chat Server");
-        frame.setContentPane(new ChatServer().mainPanel);
-        frame.setAlwaysOnTop(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    void initComponents(){
+        this.setTitle("Socket - Server");
+        this.setContentPane(mainPanel);
+        this.setAlwaysOnTop(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
     }
 }
