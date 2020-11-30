@@ -22,7 +22,6 @@ public class Server extends JFrame {
 
 
     public Server() {
-        System.out.println("Constructor initialized for Server");
         initComponents();
         serverSendButton.addActionListener(new ActionListener() {
             @Override
@@ -42,20 +41,14 @@ public class Server extends JFrame {
 
     public void serverMessaging() {
         String msgin = "";
-        System.out.println("Server Connecting...");
         try {
-            ss = new ServerSocket(1201); // port
+            ss = new ServerSocket(1201);
             s = ss.accept();
-
-            System.out.println("SeverConnected");
-
             din = new DataInputStream(s.getInputStream());
             dout = new DataOutputStream(s.getOutputStream());
 
-
             while (!msgin.equals("exit")) {
                 msgin = din.readUTF();
-                System.out.println("Client:" + msgin);
                 serverTextArea.setText(
                         serverTextArea.getText().trim() + "\n" + msgin);
 
