@@ -1,13 +1,14 @@
 package GUI;
 
+import Log.Log;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.awt.event.*;
+import java.beans.PropertyChangeListener;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.DateFormat;
 
 public class Server extends JFrame {
     private JPanel mainPanel;
@@ -20,6 +21,7 @@ public class Server extends JFrame {
     static DataInputStream din;
     static DataOutputStream dout;
 
+    Log writer;
 
     public Server() {
         initComponents();
@@ -38,13 +40,63 @@ public class Server extends JFrame {
                         serverTextArea.setText(
                                 serverTextArea.getText().trim() + "\n" + msgout);
                     }
+                    writeToLog();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
             }
         });
+        addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                System.out.println("open");
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    out.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
+        //openWrite();
         serverMessaging();
+    mainPanel.addHierarchyBoundsListener(new HierarchyBoundsAdapter() { } );
+        mainPanel.addComponentListener(new ComponentAdapter() {
+        });
+        mainPanel.addContainerListener(new ContainerAdapter() {
+        });
+        mainPanel.addFocusListener(new FocusAdapter() {
+        });
     }
+
 
     public void serverMessaging() {
         String msgin = "";
