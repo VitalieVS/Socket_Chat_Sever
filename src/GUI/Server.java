@@ -4,11 +4,9 @@ import Log.Log;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.DateFormat;
 
 public class Server extends JFrame {
     private JPanel mainPanel;
@@ -21,10 +19,11 @@ public class Server extends JFrame {
     static DataInputStream din;
     static DataOutputStream dout;
 
-    Log writer;
+    Log chatLog;
 
     public Server() {
         initComponents();
+        chatLog = new Log();
         serverSendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,7 +39,7 @@ public class Server extends JFrame {
                         serverTextArea.setText(
                                 serverTextArea.getText().trim() + "\n" + msgout);
                     }
-                    writeToLog();
+                    chatLog.writeLog("Server:", msgout);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -49,16 +48,12 @@ public class Server extends JFrame {
         addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
-                System.out.println("open");
+                chatLog.openLog();
             }
 
             @Override
             public void windowClosing(WindowEvent e) {
-                try {
-                    out.close();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+               chatLog.closeLog();
             }
 
             @Override
@@ -86,7 +81,6 @@ public class Server extends JFrame {
 
             }
         });
-        //openWrite();
         serverMessaging();
     mainPanel.addHierarchyBoundsListener(new HierarchyBoundsAdapter() { } );
         mainPanel.addComponentListener(new ComponentAdapter() {
@@ -116,6 +110,7 @@ public class Server extends JFrame {
                     serverTextArea.setText(
                             serverTextArea.getText().trim() + "\nClient:" + msgin);
                 }
+                chatLog.writeLog("Client:", msgin);
 
             }
         } catch(Exception e) {
